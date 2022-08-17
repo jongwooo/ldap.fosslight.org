@@ -1,0 +1,64 @@
+version: "3.8"
+
+services:
+  openldap:
+    env_file: .env
+    image: osixia/openldap:latest
+    container_name: ${LDAP_ORGANISATION}_openldap
+    hostname: openldap
+    ports:
+      - "389:389"
+      - "636:636"
+    volumes:
+      - ./data/certificates:/container/service/slapd/assets/certs
+      - ./data/slapd/database:/var/lib/ldap
+      - ./data/slapd/config:/etc/ldap/slapd.d
+    environment:
+      TZ: "${TZ}"
+      LDAP_LOG_LEVEL: "256"
+      LDAP_ORGANISATION: "${LDAP_ORGANISATION}"
+      LDAP_DOMAIN: "${LDAP_DOMAIN}"
+      LDAP_ADMIN_USERNAME: "${LDAP_ADMIN_USERNAME}"
+      LDAP_ADMIN_PASSWORD: "${LDAP_ADMIN_PASSWORD}"
+      LDAP_CONFIG_PASSWORD: "${LDAP_CONFIG_PASSWORD}"
+      LDAP_READONLY_USER: "true"
+      LDAP_READONLY_USER_USERNAME: "${LDAP_READONLY_USER_USERNAME}"
+      LDAP_READONLY_USER_PASSWORD: "${LDAP_READONLY_USER_PASSWORD}"
+      LDAP_RFC2307BIS_SCHEMA: "false"
+      LDAP_BACKEND: "mdb"
+      LDAP_TLS: "true"
+      LDAP_TLS_CRT_FILENAME: "ldap.crt"
+      LDAP_TLS_KEY_FILENAME: "ldap.key"
+      LDAP_TLS_CA_CRT_FILENAME: "ca.crt"
+      LDAP_TLS_ENFORCE: "false"
+      LDAP_TLS_CIPHER_SUITE: "SECURE256:-VERS-SSL3.0"
+      LDAP_TLS_PROTOCOL_MIN: "3.1"
+      LDAP_TLS_VERIFY_CLIENT: "demand"
+      LDAP_REPLICATION: "false"
+      KEEP_EXISTING_CONFIG: "false"
+      LDAP_REMOVE_CONFIG_AFTER_SETUP: "true"
+      LDAP_SSL_HELPER_PREFIX: "ldap"
+    tty: true
+    stdin_open: true
+    networks:
+      - openldap
+
+  phpldapadmin:
+    image: osixia/phpldapadmin:latest
+    container_name: ${LDAP_ORGANISATION}_phpldapadmin
+    hostname: phpldapadmin
+    ports:
+      - "8080:80"
+      - "8443:443"
+    environment:
+      TZ: "${TZ}"
+      PHPLDAPADMIN_LDAP_HOSTS: "openldap"
+      PHPLDAPADMIN_HTTPS: "true"
+    depends_on:
+      - openldap
+    networks:
+      - openldap
+
+networks:
+  openldap:
+    driver: bridge
