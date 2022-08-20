@@ -33,7 +33,7 @@ You can start the containers with the `up` command in daemon mode (by adding `-d
 docker-compose up -d
 ```
 
-You can also visit [http://127.0.0.1:8080](http://127.0.0.1:8080) (or [https://127.0.0.1:8443](https://127.0.0.1:8443)) to access [phpLDAPadmin](http://phpldapadmin.sourceforge.net/wiki/index.php/Main_Page) after starting the containers.
+You can also visit [https://127.0.0.1:8443](https://127.0.0.1:8443) to access [phpLDAPadmin](http://phpldapadmin.sourceforge.net/wiki/index.php/Main_Page) after starting the containers.
 
 ### Authentication
 
