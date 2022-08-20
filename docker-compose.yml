@@ -45,7 +45,6 @@ services:
     container_name: ${LDAP_ORGANISATION}_phpldapadmin
     hostname: phpldapadmin
     ports:
-      - "8080:80"
       - "8443:443"
     environment:
       TZ: "${TZ}"
