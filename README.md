@@ -13,6 +13,7 @@ Create a new `.env` file in project root directory.
 ```bash
 touch .env
 ```
+
 Add environment variables to `.env` file.
 
 ```bash
