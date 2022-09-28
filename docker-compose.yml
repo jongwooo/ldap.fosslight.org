@@ -4,6 +4,7 @@ services:
   openldap:
     env_file: .env
     image: osixia/openldap:latest
+    restart: always
     container_name: ${LDAP_ORGANISATION}_openldap
     hostname: openldap
     ports:
@@ -42,6 +43,7 @@ services:
 
   phpldapadmin:
     image: osixia/phpldapadmin:latest
+    restart: always
     container_name: ${LDAP_ORGANISATION}_phpldapadmin
     hostname: phpldapadmin
     ports:
